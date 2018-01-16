@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "hardDrive.h"
 #include "cstdlib"
-#include <time.h>
 
 
 hardDrive::hardDrive()
 {
-	srand(rand() + time(NULL)); // Initialize a random seed for the random number generator
 	executionTime = 0; // Sets the latency to 0
 	headPosition = 0; // Sets the head position to default.
 	

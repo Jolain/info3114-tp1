@@ -4,8 +4,9 @@
 #include <vector>
 #include <iostream>
 
-bufferPool::bufferPool(int mode) {
+bufferPool::bufferPool(int mode, hardDrive harddrive) {
 	bufferType = mode; // Toggles between bufferPool types (1 = H1; 2 = H2; 3 = disabled)
+	hdd = harddrive;
 	nextCellToClear = 0; // Marks the first cell of the array as next to delete
 }
 

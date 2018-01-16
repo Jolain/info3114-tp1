@@ -23,7 +23,7 @@ class bufferPool
 	int bufferType;
 	int time;
 public:
-	bufferPool(int);
+	bufferPool(int, hardDrive);
 	~bufferPool();
 	void readFile(int);
 	void writeFile(int);
