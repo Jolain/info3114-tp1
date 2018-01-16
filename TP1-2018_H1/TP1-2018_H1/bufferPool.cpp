@@ -20,7 +20,7 @@ void bufferPool::readFile(int file) {
 	if (fileInBuffer(file)) { 
 		// read from cache, no time penalty
 	}
-	else { // read from HDD
+	else { // Read from HDD
 		int data = hdd.readSector(file);
 		if (buffer.size() < 5) { // If the buffer is not full, push back the accessed data
 			buffer.push_back(vMemory(file, data, false));
@@ -39,23 +39,42 @@ void bufferPool::readFile(int file) {
 void bufferPool::writeFile(int file) {
 	if (fileInBuffer(file)) {
 		// write to cache, no time penalty
-		/* Add code that changes the data */
+		
+		// Find the cell requested
+		for (int i = 0; i < buffer.size(); i++) {
+			if (buffer[i].address == file) {
+				// Changing the data is handled in hardDrive.cpp
+				buffer[i].isDirty == true; // Marks the memory as "needs to be written to the disk"
+			}
+		}
+	}
+	else { // Write directly to the hdd
+		hdd.writeSector(file);
 	}
 }
 
 // Write changes to disk and clear memory slot
 void bufferPool::closeFile(int file) {
-
+	if (buffer[nextCellToClear].isDirty) {
+		hdd.writeSector(file); // Write to disk since information has changed
+	}
+	buffer[nextCellToClear].address = NULL; // Wipe memory cell
+	buffer[nextCellToClear].value = NULL;
+	buffer[nextCellToClear].isDirty = false;
 }
 
 // Returns true if the passed address is currently in the buffer
 bool bufferPool::fileInBuffer(int file) {
-	
+	for (int i = 0; i < buffer.size(); i++) {
+		if (buffer[i].address == file) { return true; }
+	}
+
+	return false;
 }
 
 // Flags a memory cell as dirty (needs to be written to disk)
 void bufferPool::markDirty(int cell) {
-
+	buffer[cell].isDirty = true;
 }
 
 // Returns the amount of time needed to do the operation in ms
