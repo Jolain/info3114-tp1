@@ -43,7 +43,9 @@ void bufferPool::writeFile(int file) {
 		// Find the cell requested
 		for (int i = 0; i < buffer.size(); i++) {
 			if (buffer[i].address == file) {
-				// Changing the data is handled in hardDrive.cpp
+				// Randomly do +1 or -1 to the data to symbolise a data write/change
+				if (rand() % 2 == 0) { buffer[i].value++; }
+				else { buffer[i].value--; }
 				buffer[i].isDirty == true; // Marks the memory as "needs to be written to the disk"
 			}
 		}

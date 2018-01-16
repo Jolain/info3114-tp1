@@ -60,6 +60,16 @@ void hardDrive::writeSector(int sector) {
 	else { sectors[track][section]--; }
 }
 
+// Writes the sent data to the requested sector. Calculates the time required.
+void hardDrive::writeSector(int sector, int value) {
+	int track = sector / 5; // Since C++ truncates towards 0 for integers division, this will give the correct track on which the sector is
+	int section = sector % 5; // The remainder of the division will give the sector on the track found above
+	alignHead(track); //Align the head to the track
+
+	executionTime += 2; // Writes the data
+	sectors[track][section] = value;
+}
+
 
 // Returns the total execution time of the operations requested (in ms)
 int hardDrive::getLatency() {

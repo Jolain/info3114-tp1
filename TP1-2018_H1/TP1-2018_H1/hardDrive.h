@@ -12,6 +12,7 @@ public:
 	void alignHead(int);
 	int readSector(int);
 	void writeSector(int);
+	void writeSector(int, int);
 	int getLatency(void);
 };
 
