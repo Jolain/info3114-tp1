@@ -2,6 +2,7 @@
 #include "bufferPool.h"
 #include "hardDrive.h"
 #include <vector>
+#include <iostream>
 
 bufferPool::bufferPool(int mode) {
 	bufferType = mode; // Toggles between bufferPool types (1 = H1; 2 = H2; 3 = disabled)
@@ -22,8 +23,12 @@ void bufferPool::readFile(int file) {
 	}
 	else { // Read from HDD
 		int data = hdd.readSector(file);
+		cout << data << " ";
 		if (buffer.size() < 5) { // If the buffer is not full, push back the accessed data
-			buffer.push_back(vMemory(file, data, false));
+			vMemory temp;
+			temp.address = file;
+			temp.value = data;
+			buffer.push_back(temp);
 		}
 		else { // If the buffer is full, replace the oldest data with the new one
 			closeFile(buffer[nextCellToClear].address); // Closes the next cell
@@ -46,7 +51,7 @@ void bufferPool::writeFile(int file) {
 				// Randomly do +1 or -1 to the data to symbolise a data write/change
 				if (rand() % 2 == 0) { buffer[i].value++; }
 				else { buffer[i].value--; }
-				buffer[i].isDirty == true; // Marks the memory as "needs to be written to the disk"
+				buffer[i].isDirty = true; // Marks the memory as "needs to be written to the disk"
 			}
 		}
 	}
@@ -79,7 +84,7 @@ void bufferPool::markDirty(int cell) {
 	buffer[cell].isDirty = true;
 }
 
-// Returns the amount of time needed to do the operation in ms
+// Returns the amount of time needed to do the operations in ms
 int bufferPool::executionTime() {
-	return time;
+	return hdd.getLatency();
 }

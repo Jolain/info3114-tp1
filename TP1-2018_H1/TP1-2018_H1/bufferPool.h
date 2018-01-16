@@ -12,16 +12,7 @@ struct vMemory {
 	int address = NULL; // Memory cells initializes with a null address
 	int value = NULL; // Memory cells initializes with a null value
 	bool isDirty = false;
-public:
-	vMemory(int, int, bool);
 };
-
-// Constructor for vMemory
-vMemory::vMemory(int ad, int val, bool dirty) {
-	address = ad;
-	value = val;
-	isDirty = false;
-}
 
 // Declaration of bufferPool functions and vars
 class bufferPool
