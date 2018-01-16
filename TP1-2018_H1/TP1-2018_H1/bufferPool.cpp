@@ -8,7 +8,7 @@ bufferPool::bufferPool(int mode) {
 	nextCellToClear = 0; // Marks the first cell of the array as next to delete
 }
 
-
+// Virtual destructor for compiling purposes
 bufferPool::~bufferPool()
 {
 }
