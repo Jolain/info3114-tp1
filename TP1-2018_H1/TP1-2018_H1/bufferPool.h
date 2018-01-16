@@ -31,5 +31,6 @@ public:
 	bool fileInBuffer(int);
 	void markDirty(int);
 	int executionTime(void);
+	void displayBufferStatus(void);
 };
 

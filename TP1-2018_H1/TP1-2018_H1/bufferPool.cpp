@@ -89,3 +89,15 @@ void bufferPool::markDirty(int cell) {
 int bufferPool::executionTime() {
 	return hdd.getLatency();
 }
+
+void bufferPool::displayBufferStatus() {
+	cout << "  0      1      2      3      4" << endl;
+	cout << "#####  #####  #####  #####  #####" << endl;
+	for (int i = 0; i < 5; i++) {
+		if (buffer[i].value != NULL) {
+			cout << "  " << buffer[i].value << "    ";
+		}
+		else { cout << " NIL   ";  }
+	}
+	cout << endl;
+}

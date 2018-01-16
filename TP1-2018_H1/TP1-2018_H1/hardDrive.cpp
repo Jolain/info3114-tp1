@@ -75,3 +75,8 @@ void hardDrive::writeSector(int sector, int value) {
 int hardDrive::getLatency() {
 	return executionTime;
 }
+
+// Resets the latency recorded on the HDD
+void hardDrive::resetLatency() {
+	executionTime = 0;
+}

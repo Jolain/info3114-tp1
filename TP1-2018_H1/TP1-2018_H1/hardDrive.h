@@ -14,5 +14,6 @@ public:
 	void writeSector(int);
 	void writeSector(int, int);
 	int getLatency(void);
+	void resetLatency(void);
 };
 
