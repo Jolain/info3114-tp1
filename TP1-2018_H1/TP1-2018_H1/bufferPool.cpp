@@ -91,13 +91,14 @@ int bufferPool::executionTime() {
 }
 
 void bufferPool::displayBufferStatus() {
+	cout << "        Bassin de tampons" << endl;
 	cout << "  0      1      2      3      4" << endl;
 	cout << "#####  #####  #####  #####  #####" << endl;
 	for (int i = 0; i < 5; i++) {
-		if (buffer[i].value != NULL) {
+		if ((i < buffer.size()) && (buffer[i].value != NULL)) {
 			cout << "  " << buffer[i].value << "    ";
 		}
 		else { cout << " NIL   ";  }
 	}
-	cout << endl;
+	cout << endl << endl;
 }
