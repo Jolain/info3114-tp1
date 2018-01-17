@@ -17,13 +17,13 @@ struct vMemory {
 // Declaration of bufferPool functions and vars
 class bufferPool
 {
-	vector<vMemory> buffer;
-	hardDrive hdd; // HDD that the buffer is attached to
+	vector<vMemory*> *buffer = new vector<vMemory*>;
+	hardDrive *hdd; // HDD that the buffer is attached to
 	int nextCellToClear;
 	int bufferType;
 	int time;
 public:
-	bufferPool(int, hardDrive);
+	bufferPool(int, hardDrive *);
 	~bufferPool();
 	void readFile(int);
 	void writeFile(int);
