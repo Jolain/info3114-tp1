@@ -27,7 +27,7 @@ public:
 	~bufferPool();
 	void readFile(int);
 	void writeFile(int);
-	void closeFile(int);
+	void closeFile(int);   
 	bool fileInBuffer(int);
 	void markDirty(int);
 	int executionTime(void);

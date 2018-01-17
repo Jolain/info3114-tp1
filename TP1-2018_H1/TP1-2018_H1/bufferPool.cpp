@@ -21,13 +21,13 @@ bufferPool::~bufferPool()
 // Reads the file at the selected address
 void bufferPool::readFile(int file) {
 
-	if (fileInBuffer(file) && bufferType !=3) {
+	if (fileInBuffer(file) && bufferType != 3) {
 		// read from cache, no time penalty
 	}
 	else { // Read from HDD
 		int data = hdd->readSector(file);
 		cout << data << " ";
-		if (buffer->size() < 5) { // If the buffer is not full, push back the accessed data
+		if (buffer->size() < 5 && bufferType != 3) { // If the buffer is not full, push back the accessed data
 			vMemory *temp = new vMemory;
 			temp->address = file;
 			temp->value = data;
@@ -48,7 +48,7 @@ void bufferPool::readFile(int file) {
 
 //Writes to the selected address
 void bufferPool::writeFile(int file) {
-	if (fileInBuffer(file)) {
+	if (fileInBuffer(file) && bufferType != 3) {
 		// write to cache, no time penalty
 		// Find the cell requested
 		for (int i = 0; i < buffer->size(); i++) {
