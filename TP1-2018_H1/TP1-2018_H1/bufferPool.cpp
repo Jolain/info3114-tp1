@@ -105,5 +105,6 @@ void bufferPool::displayBufferStatus() {
 		}
 		else { cout << " NIL   ";  }
 	}
+	cout << endl << "#####  #####  #####  #####  #####";
 	cout << endl << endl;
 }
