@@ -9,10 +9,6 @@ bufferPool::bufferPool(int mode, hardDrive *harddrive) {
 	hdd = harddrive;
 	nextCellToClear = 0; // Marks the first cell of the array as next to delete
 
-	// Create the 5 memory cells objects
-	for (int i = 0; i < 5; i++) {
-		
-	}
 }
 
 // Virtual destructor for compiling purposes
@@ -24,7 +20,8 @@ bufferPool::~bufferPool()
 
 // Reads the file at the selected address
 void bufferPool::readFile(int file) {
-	if (fileInBuffer(file)) { 
+
+	if (fileInBuffer(file) && bufferType !=3) {
 		// read from cache, no time penalty
 	}
 	else { // Read from HDD
@@ -36,12 +33,15 @@ void bufferPool::readFile(int file) {
 			temp->value = data;
 			buffer->push_back(temp);
 		}
-		else { // If the buffer is full, replace the oldest data with the new one
+		else if (bufferType == 1) { // If the buffer is full, replace the oldest data with the new one
 			closeFile(buffer->at(nextCellToClear)->address); // Closes the next cell
 			// Fill the cell with new data
 			buffer->at(nextCellToClear)->address = file;
 			buffer->at(nextCellToClear)->value = data;
 			nextCellToClear = (nextCellToClear + 1) % 5; // Loops the counter to the start of the buffer
+		}
+		else if (bufferType == 2) { // If the buffer is full, replace the least used data with the new one
+			//TODO: Do code for heuristic 2
 		}
 	}
 }
@@ -50,7 +50,6 @@ void bufferPool::readFile(int file) {
 void bufferPool::writeFile(int file) {
 	if (fileInBuffer(file)) {
 		// write to cache, no time penalty
-		
 		// Find the cell requested
 		for (int i = 0; i < buffer->size(); i++) {
 			if (buffer->at(i)->address == file) {
