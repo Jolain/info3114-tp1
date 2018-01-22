@@ -8,7 +8,6 @@ bufferPool::bufferPool(int mode, hardDrive *harddrive) {
 	bufferType = mode; // Toggles between bufferPool types (1 = H1; 2 = H2; 3 = disabled)
 	hdd = harddrive;
 	nextCellToClear = 0; // Marks the first cell of the array as next to delete
-
 }
 
 // Virtual destructor for compiling purposes
@@ -100,7 +99,7 @@ void bufferPool::displayBufferStatus() {
 	cout << "#####  #####  #####  #####  #####" << endl;
 	for (int i = 0; i < 5; i++) {
 		if ((i < buffer->size()) && (buffer->at(i)->value != NULL)) {
-			cout << "  " << buffer->at(i)->value << "    ";
+			cout << "  " << buffer->at(i)->address << "    ";
 		}
 		else { cout << " NIL   ";  }
 	}
