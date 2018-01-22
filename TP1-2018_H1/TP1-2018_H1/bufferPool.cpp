@@ -106,3 +106,9 @@ void bufferPool::displayBufferStatus() {
 	cout << endl << "#####  #####  #####  #####  #####";
 	cout << endl << endl;
 }
+
+// New definitions for operations
+// fileBuffer.open(int) -> copie le fichier du harddrive vers le buffer
+// fileBuffer.close() -> ecrit tout les fichiers au HD
+// fileBuffer.write(int) -> si dirtyBit == true, ecrire sur HD
+// fileBuffer.modify(int) -> set dirtyBit == true
