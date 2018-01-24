@@ -16,7 +16,6 @@ hardDrive::hardDrive()
 	}
 }
 
-// Virtual destructor for compiling purposes
 hardDrive::~hardDrive()
 {
 }

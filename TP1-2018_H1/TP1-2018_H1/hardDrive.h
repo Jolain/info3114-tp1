@@ -8,7 +8,7 @@ class hardDrive
 	int executionTime;
 public:
 	hardDrive();
-	virtual ~hardDrive();
+	~hardDrive();
 	void alignHead(int);
 	int readSector(int);
 	void writeSector(int);
