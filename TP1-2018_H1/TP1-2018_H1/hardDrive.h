@@ -5,7 +5,8 @@ class hardDrive
 {
 	int sectors[4][5];  // 4 tracks with 5 sectors each
 	int headPosition; // Stores the current track on which the head is aligned
-	int executionTime;
+	int executionTime; // Tracks the latency of the HDD
+	int sectorPosition; // Stores the current sector the head is over
 public:
 	hardDrive();
 	~hardDrive();
@@ -15,5 +16,6 @@ public:
 	void writeSector(int, int);
 	int getLatency(void);
 	void resetLatency(void);
+	void waitForSector(int);
 };
 
