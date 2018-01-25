@@ -21,20 +21,6 @@ hardDrive::~hardDrive()
 {
 }
 
-/*
-NOTE: To be as accurate as possible, we need to emulate the rotation of the disk
-as operations are performed. To do this, we need to assume that the operations to
-the buffer are instantaneous and that the disk does not have time to rotate in between
-calls to the buffer. With that assumption, we can now process the time required for the
-disk to rotate to the required sector when a read or write operation is performed.
-
-Since a full rotation of the disk requires 10ms and there's 5 sectors, it takes 2ms
-for the disk to move to the next sector. However, since the disk does not stop spinning,
-whenever we need to do an operation that requires time we need to update the 'sectorPosition'
-value to (sectorPosition + 1) % 5
-*/
-
-
 // Sets the head of the HDD to the correct position and calculates the time required to do so
 void hardDrive::alignHead(int track) {
 	// Determine in which direction the head should move (+/-)
