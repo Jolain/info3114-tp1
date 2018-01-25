@@ -9,8 +9,8 @@ using namespace std;
 // visualize the actual process better.
 
 struct vMemory {
-	int address = NULL; // Memory cells initializes with a null address
-	int value = NULL; // Memory cells initializes with a null value
+	int address = 0; // Memory cells initializes with a null address
+	int value = 0; // Memory cells initializes with a null value
 	bool isDirty = false;
 };
 
