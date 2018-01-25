@@ -80,21 +80,27 @@ int main()
 					}
 					
 					default: { // Invalid character entered
-						cout << "Charactère invalide. Entrez une commande: ";
+						cout << "Charactere invalide. Entrez une commande: ";
 						break;
 					}
 				}
 			}
 			else {
-				cout << "Charactère invalide. Entrez une commande: ";
+				cout << "Charactere invalide. Entrez une commande: ";
 			}
 			cin.clear();
 		}
 		
 		int prgToRun;
 		cout << endl << "Entrez le programme a executer [1-3]: ";
-		while (!(cin >> prgToRun)) {
-			
+		while (true) {
+			if(cin >> prgToRun && (prgToRun <= 3 || prgToRun >= 1)) {
+				break;
+			}
+			else {
+				cout << "Caractere invalide. Entrez un chiffre inclus dans [1-3]: ";
+			}
+			cin.clear();
 		}
 
 		cout << endl << "Execution du programme " << prgToRun << endl;
