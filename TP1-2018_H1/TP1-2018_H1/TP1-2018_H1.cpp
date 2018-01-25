@@ -18,6 +18,7 @@ struct instruction { // Struct for the instructions to send to the bufferPool
 // Additional display functions declaration
 void displayProgram(instruction prg[]);
 void runProgram(instruction prg[], bufferPool target);
+void generateProgram();
 
 // Declare the 3 programs to emulate
 instruction programme1[10000];
@@ -44,54 +45,8 @@ int main()
 	// Declare the buffer pools
 	bufferPool *buffer1 = new bufferPool(true, hdd); // Buffer pool enabled
 	bufferPool *buffer2 = new bufferPool(false, hdd);// Buffer pool disabled
-
-	// Fill the programs with random instructions
-	int temp;
-	for (int i = 0; i < 10000; i++) {
-		temp = rand() % 3;
-		switch (temp) {
-			case 0:
-				programme1[i].type = 'r'; // Read instruction
-				break;
-			case 1:
-				programme1[i].type = 'w'; // Write instruction
-				break;
-			case 2:
-				programme1[i].type = 'm'; // Modify instruction
-				break;
-		}
-		programme1[i].address = rand() % 19; // Random address from 0-19
-	}
-	for (int i = 0; i < 10000; i++) {
-		temp = rand() % 3;
-		switch (temp) {
-			case 0:
-				programme2[i].type = 'r';
-				break;
-			case 1:
-				programme2[i].type = 'w';
-				break;
-			case 2:
-				programme2[i].type = 'm';
-				break;
-		}
-		programme2[i].address = rand() % 19; // Random address from 0-19
-	}
-	for (int i = 0; i < 10000; i++) {
-		temp = rand() % 3;
-		switch (temp) {
-			case 0:
-				programme3[i].type = 'r';
-				break;
-			case 1:
-				programme3[i].type = 'w';
-				break;
-			case 2:
-				programme3[i].type = 'm';
-				break;
-		}
-		programme3[i].address = rand() % 19; // Random address from 0-19
-	}
+	
+	generateProgram();
 
 	int timeWithBuffer, timeWithoutBuffer;
 
@@ -105,23 +60,43 @@ int main()
 		buffer1->flush();
 		buffer2->flush();
 
-		/*
-		cout << "Programme #1: ";
-		displayProgram(programme1);
-		cout << "Programme #2: ";
-		displayProgram(programme2);
-		cout << "Programme #3: ";
-		displayProgram(programme3);
-		*/
-
-		cout << endl << "Entrer le programme a executer (1-3): ";
-		int prgToRun;
-		cin >> prgToRun;
-
-		while (prgToRun != 1 && prgToRun != 2 && prgToRun != 3) {
-			cout << endl << "Entrer une valeur entre (1-3): ";
-			cin >> prgToRun;
+		cout << endl << "(Q)uitter | (E)xecuter la simulation | (R)egenerer les 3 programmes" << endl << "Entrez une commande: ";
+		char option;
+		bool loop = true;
+		// Input checking
+		while (loop) {
+			cin >> option;
+			if (isalpha(option)) {
+				switch (toupper(option)) {
+					case 'Q': return 0; // Exit program
+					case 'E': { // Continue normal execution
+						loop = false;
+						break;
+					}
+					case 'R': { // Create new values for the 3 programs
+						generateProgram();
+						cout << "Programmes regenerer." << endl << "Entrez une commande: ";
+						break;
+					}
+					
+					default: { // Invalid character entered
+						cout << "Charactère invalide. Entrez une commande: ";
+						break;
+					}
+				}
+			}
+			else {
+				cout << "Charactère invalide. Entrez une commande: ";
+			}
+			cin.clear();
 		}
+		
+		int prgToRun;
+		cout << endl << "Entrez le programme a executer [1-3]: ";
+		while (!(cin >> prgToRun)) {
+			
+		}
+
 		cout << endl << "Execution du programme " << prgToRun << endl;
 		cout << "------------------------" << endl;
 		
@@ -183,5 +158,55 @@ void runProgram(instruction prg[], bufferPool target) {
 		else if (prg[i].type == 'm') {
 			target.modify(prg[i].address);
 		}
+	}
+}
+
+// Generates 3 random programs
+void generateProgram() {
+	int temp;
+	for (int i = 0; i < 10000; i++) {
+		temp = rand() % 3;
+		switch (temp) {
+		case 0:
+			programme1[i].type = 'r'; // Read instruction
+			break;
+		case 1:
+			programme1[i].type = 'w'; // Write instruction
+			break;
+		case 2:
+			programme1[i].type = 'm'; // Modify instruction
+			break;
+		}
+		programme1[i].address = rand() % 19; // Random address from 0-19
+	}
+	for (int i = 0; i < 10000; i++) {
+		temp = rand() % 3;
+		switch (temp) {
+		case 0:
+			programme2[i].type = 'r';
+			break;
+		case 1:
+			programme2[i].type = 'w';
+			break;
+		case 2:
+			programme2[i].type = 'm';
+			break;
+		}
+		programme2[i].address = rand() % 19; // Random address from 0-19
+	}
+	for (int i = 0; i < 10000; i++) {
+		temp = rand() % 3;
+		switch (temp) {
+		case 0:
+			programme3[i].type = 'r';
+			break;
+		case 1:
+			programme3[i].type = 'w';
+			break;
+		case 2:
+			programme3[i].type = 'm';
+			break;
+		}
+		programme3[i].address = rand() % 19; // Random address from 0-19
 	}
 }
