@@ -77,11 +77,11 @@ void bufferPool::modify(int file) {
 
 // Write changes to disk and clear memory slot
 void bufferPool::closeFile(int file, int target) {
-	if (buffer->at(target)->isDirty && buffer->at(target)->address != NULL) {
+	if (buffer->at(target)->isDirty && buffer->at(target)->address != -1) {
 		writeFile(file);
 	}
-	buffer->at(target)->address = NULL; // Wipe memory cell
-	buffer->at(target)->value = NULL;
+	buffer->at(target)->address = -1; // Wipe memory cell
+	buffer->at(target)->value = -1;
 	buffer->at(target)->isDirty = false;
 }
 
@@ -119,7 +119,7 @@ void bufferPool::displayBufferStatus() {
 	cout << "  0      1      2      3      4" << endl;
 	cout << "#####  #####  #####  #####  #####" << endl;
 	for (int i = 0; i < 5; i++) {
-		if ((i < buffer->size()) && (buffer->at(i)->value != NULL)) {
+		if ((i < buffer->size()) && (buffer->at(i)->value != -1)) {
 			cout << "  " << buffer->at(i)->address << "    ";
 		}
 		else { cout << " NIL   ";  }

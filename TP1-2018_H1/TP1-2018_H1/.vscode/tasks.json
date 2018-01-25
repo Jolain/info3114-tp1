@@ -1,0 +1,26 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "bufferPool.cpp",
+                "hardDrive.cpp",
+                "TP1-2018_H1.cpp"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "./a.out"
+        }
+    ]
+}
