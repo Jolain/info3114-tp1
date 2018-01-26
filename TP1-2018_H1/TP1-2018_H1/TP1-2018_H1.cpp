@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "hardDrive.h"
 #include "bufferPool.h"
+#include <math.h>
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -104,7 +105,7 @@ int main()
 		}
 
 		cout << endl << "Execution du programme " << prgToRun << endl;
-		cout << "------------------------" << endl;
+		cout << "---------------------------------------" << endl;
 		
 		if (prgToRun == 1) {
 			// Run with the buffer first, then without the buffer
@@ -133,12 +134,16 @@ int main()
 			runProgram(programme3, *buffer2);
 			timeWithoutBuffer = buffer2->executionTime();
 		}
-
+		
+		// Calculate the effiency gained
+		// Multiply by 100 because we want to display as % and we need to round the result
+		float effiency = ((float)timeWithoutBuffer / (float)timeWithBuffer) * 100;
+		effiency = (roundf(effiency * 100) / 100) - 100; 
 		// Display the results
-		cout << "Temps d'execution avec buffer: "
-			<< timeWithBuffer << " ms" << endl;
-		cout << "Temps d'execution sans buffer: "
-			<< timeWithoutBuffer << " ms" << endl;
+		cout << "Temps d'execution avec buffer: " << timeWithBuffer << " ms" << endl;
+		cout << "Temps d'execution sans buffer: " << timeWithoutBuffer << " ms" << endl;
+		cout << "Efficacite gagner avec buffer: " << effiency << "%" << endl;
+		cout << "---------------------------------------" << endl;
 	}
 
     return 0;

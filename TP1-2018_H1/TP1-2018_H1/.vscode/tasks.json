@@ -16,11 +16,11 @@
                 "$gcc"
             ]
         },
-
         {
             "label": "run",
             "type": "shell",
-            "command": "./a.out"
+            "command": "./a.out",
+            "problemMatcher": []
         }
     ]
 }
