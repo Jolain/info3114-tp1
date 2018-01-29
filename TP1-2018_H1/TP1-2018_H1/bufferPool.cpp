@@ -41,9 +41,9 @@ void bufferPool::readFile(int file) {
 			nextCellToClear = (nextCellToClear + 1) % 5; // Loops the counter to the start of the buffer
 		}
 		else if (bufferType == 2) { // If the buffer is full, replace the least used data with the new one
-
-			// TODO: Heuristic 2
-
+			nextCellToClear = leastUsed();
+			buffer->at(nextCellToClear)->address = file;
+			buffer->at(nextCellToClear)->value = data;
 		}
 	}
 }
@@ -112,6 +112,21 @@ int bufferPool::posInBuffer(int file) {
 // Flags a memory cell as dirty (needs to be written to disk)
 void bufferPool::markDirty(int cell) {
 	buffer->at(cell)->isDirty = true;
+}
+
+// Returns the least used addresses in the buffer
+// If there's an equality, returns the address with the least weight
+int bufferPool::leastUsed() {
+	int min, result;
+	min = 99999999999;
+
+	for(int i = 0; i < 5; i++) {
+		if(usageMatrix[buffer->at(i)->address] < min) {
+			result = buffer->at(i)->address;
+		}
+	}
+	
+	return result;
 }
 
 // Returns the amount of time needed to do the operations in ms

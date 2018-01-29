@@ -33,7 +33,7 @@ public:
 	void flush(void);
 	int posInBuffer(int);
 	void markDirty(int);
-	int findLeastUsed();
+	int leastUsed(void);
 	int executionTime(void);
 	void displayBufferStatus(void);
 };
