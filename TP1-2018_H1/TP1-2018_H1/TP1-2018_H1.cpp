@@ -95,7 +95,7 @@ int main()
 		int prgToRun;
 		cout << endl << "Entrez le programme a executer [1-3]: ";
 		while (true) {
-			if(cin >> prgToRun && (prgToRun <= 3 || prgToRun >= 1)) {
+			if(cin >> prgToRun && (prgToRun <= 3 && prgToRun >= 1)) {
 				break;
 			}
 			else {
