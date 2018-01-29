@@ -20,10 +20,10 @@ class bufferPool
 	vector<vMemory*> *buffer = new vector<vMemory*>;
 	hardDrive *hdd; // HDD that the buffer is attached to
 	int nextCellToClear;
-	bool enabled;
+	int bufferType;
 	int time;
 public:
-	bufferPool(bool, hardDrive *);
+	bufferPool(int, hardDrive *);
 	~bufferPool();
 	void readFile(int);
 	void writeFile(int);

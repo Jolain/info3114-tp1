@@ -29,6 +29,7 @@ instruction programme3[10000];
 // Array that will hold the 4 different buffer pools required for the assignement
 int main()
 {
+	int mode;
 	// Generate a random seed to get different values every time
 	srand(rand() + time(NULL));
 
@@ -36,15 +37,29 @@ int main()
 	cout << "##############################" << endl;
 	cout << "#       Poirier, Jolain      #" << endl;
 	cout << "#          A00192864         #" << endl;
+	cout << "#      Heuristique 1 & 2     #" << endl;
 	cout << "##############################" << endl;
-
 	cout << endl;
-	cout << "======== Heuristique 1 =======" << endl;
+
+	cout << "Entrez '1' ou '2' pour sélectionner l'heuristique: ";
+	
+	// Entry checking
+	while (true) {
+		cin >> mode;
+		if (mode != 1 && mode != 2) {
+			cout << "Entrez une valeur entre 1 et 2: ";
+			mode = 0;
+		}
+		else { break; }
+	}
+
+	cout << "======== Heuristique " << mode << "=======" << endl;
+	cout << "*** Pour changer d'heuristique, redemarrer le programme. ***" << endl;
 
 	// Construct a HDD with random data
 	hardDrive *hdd = new hardDrive();
 	// Declare the buffer pools
-	bufferPool *buffer1 = new bufferPool(true, hdd); // Buffer pool enabled
+	bufferPool *buffer1 = new bufferPool(mode, hdd); // Buffer pool enabled
 	bufferPool *buffer2 = new bufferPool(false, hdd);// Buffer pool disabled
 	
 	generateProgram();
@@ -92,6 +107,7 @@ int main()
 			cin.clear();
 		}
 		
+		// Input checking
 		int prgToRun;
 		cout << endl << "Entrez le programme a executer [1-3]: ";
 		while (true) {

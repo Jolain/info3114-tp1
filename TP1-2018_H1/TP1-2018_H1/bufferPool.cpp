@@ -4,8 +4,8 @@
 #include <vector>
 #include <iostream>
 
-bufferPool::bufferPool(bool bufferEnabled, hardDrive *harddrive) {
-	enabled = bufferEnabled; // Bool that marks if the buffer is used or not
+bufferPool::bufferPool(int mode, hardDrive *harddrive) {
+	bufferType = mode; // Toggle between bufferPool types (1 = H1; 2 = H2; 3 = disabled)
 	hdd = harddrive; // Pointer to the linked HDD
 	nextCellToClear = 0; // Marks the first cell of the array as next to delete
 }
@@ -20,37 +20,42 @@ bufferPool::~bufferPool()
 // Reads the file at the selected address
 void bufferPool::readFile(int file) {
 
-	if (enabled && posInBuffer(file) != -1) {
+	if (bufferType != 3 && posInBuffer(file) != -1) {
 		// read from cache, no time penalty
 	}
 	else { // Read from HDD
 		int data = hdd->readSector(file);
 
-		if (buffer->size() < 5 && enabled) { // If the buffer is not full, push back the accessed data
+		if (bufferType != 3 && buffer->size() < 5) { // If the buffer is not full, push back the accessed data
 			vMemory *temp = new vMemory;
 			temp->address = file;
 			temp->value = data;
 			buffer->push_back(temp);
 		}
-		else if (enabled) { // If the buffer is full, replace the oldest data with the new one
+		else if (bufferType == 1) { // If the buffer is full, replace the oldest data with the new one
 			closeFile(buffer->at(nextCellToClear)->address, nextCellToClear); // TODO: Check this line, might cause problems with logic
 			// Fill the cell with new data
 			buffer->at(nextCellToClear)->address = file;
 			buffer->at(nextCellToClear)->value = data;
 			nextCellToClear = (nextCellToClear + 1) % 5; // Loops the counter to the start of the buffer
 		}
+		else if (bufferType == 2) { // If the buffer is full, replace the least used data with the new one
+
+			// TODO: Heuristic 2
+
+		}
 	}
 }
 
 // Writes to the selected address
 void bufferPool::writeFile(int file) {
-	if (enabled) {
+	if (bufferType != 3) {
 		int pos = posInBuffer(file); // Check if the file requested is in the buffer
 		if (pos != -1) { // If the file is in the buffer & dirty, write it to the disk
 			if (buffer->at(pos)->isDirty == true) { hdd->writeSector(file, buffer->at(pos)->value); }
 		}
 		// Otherwise do nothing, the write operation is not necessary
-
+		 
 	}
 	else { hdd->writeSector(file); } // Write directly to disk if the buffer is not used
 }
@@ -58,7 +63,7 @@ void bufferPool::writeFile(int file) {
 // Modifies a value either on the buffer or on the HDD directly depending on buffer mode
 void bufferPool::modify(int file) {
 
-	if (enabled) { // Buffer is used, do buffer stuff
+	if (bufferType != 3) { // Buffer is used, do buffer stuff
 		int pos = posInBuffer(file);
 		if (pos == -1) { 
 			readFile(file); // Load the file in the buffer if it's not present
