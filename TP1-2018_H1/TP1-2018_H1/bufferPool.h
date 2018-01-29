@@ -20,6 +20,7 @@ class bufferPool
 	vector<vMemory*> *buffer = new vector<vMemory*>;
 	hardDrive *hdd; // HDD that the buffer is attached to
 	int nextCellToClear;
+	int usageMatrix[20]; // Keeps track of how often an address is used
 	int bufferType;
 	int time;
 public:
@@ -32,6 +33,7 @@ public:
 	void flush(void);
 	int posInBuffer(int);
 	void markDirty(int);
+	int findLeastUsed();
 	int executionTime(void);
 	void displayBufferStatus(void);
 };

@@ -22,6 +22,7 @@ void bufferPool::readFile(int file) {
 
 	if (bufferType != 3 && posInBuffer(file) != -1) {
 		// read from cache, no time penalty
+		if(bufferType == 2) { usageMatrix[file] ++; } // Log the access
 	}
 	else { // Read from HDD
 		int data = hdd->readSector(file);
