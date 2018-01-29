@@ -4,13 +4,13 @@
 #include <vector>
 #include <iostream>
 
+// Constructor && Destructor
 bufferPool::bufferPool(int mode, hardDrive *harddrive) {
 	bufferType = mode; // Toggle between bufferPool types (1 = H1; 2 = H2; 3 = disabled)
 	hdd = harddrive; // Pointer to the linked HDD
 	nextCellToClear = 0; // Marks the first cell of the array as next to delete
 }
 
-// Virtual destructor for compiling purposes
 bufferPool::~bufferPool()
 {
 }
@@ -99,7 +99,6 @@ void bufferPool::flush() {
 	buffer->clear(); // Delete the memory cells to allow new ones to be generated
 }
 
-
 // If the file is present in the buffer, return the pos of the file in the memory array
 int bufferPool::posInBuffer(int file) {
 	for (int i = 0; i < buffer->size(); i++) {
@@ -119,6 +118,7 @@ int bufferPool::executionTime() {
 	return hdd->getLatency();
 }
 
+// Displays what is currently held in the buffer
 void bufferPool::displayBufferStatus() {
 	cout << "        Bassin de tampons" << endl;
 	cout << "  0      1      2      3      4" << endl;
