@@ -9,6 +9,7 @@
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <string>
 using namespace std;
 
 struct instruction { // Struct for the instructions to send to the bufferPool
@@ -29,7 +30,7 @@ instruction programme3[10000];
 // Array that will hold the 4 different buffer pools required for the assignement
 int main()
 {
-	int mode;
+	string input;
 	// Generate a random seed to get different values every time
 	srand(rand() + time(NULL));
 
@@ -41,25 +42,32 @@ int main()
 	cout << "##############################" << endl;
 	cout << endl;
 
-	cout << "Entrez '1' ou '2' pour sélectionner l'heuristique: ";
+	cout << "Entrez '1' ou '2' pour selectionner l'heuristique: ";
 	
 	// Entry checking
 	while (true) {
-		cin >> mode;
-		if (mode != 1 && mode != 2) {
-			cout << "Entrez une valeur entre 1 et 2: ";
-			mode = 0;
+		getline(cin, input);
+		try {
+			if (stoi(input) != 1 && stoi(input) != 2) {
+				cout << "Entrez une valeur entre 1 et 2: ";
+				input = "";
+			}
+			else { break; }
 		}
-		else { break; }
+		catch (...) { // Invalid input
+			input = "";
+			cout << "Caractere invalide. Entrez une valeur entre 1 et 2: ";
+		}
+		
 	}
 
-	cout << "======== Heuristique " << mode << " =======" << endl;
+	cout << "======== Heuristique " << input << " =======" << endl;
 	cout << "*** Pour changer d'heuristique, redemarrer le programme. ***" << endl;
 
 	// Construct a HDD with random data
 	hardDrive *hdd = new hardDrive();
 	// Declare the buffer pools
-	bufferPool *buffer1 = new bufferPool(mode, hdd); // Buffer pool enabled
+	bufferPool *buffer1 = new bufferPool(stoi(input), hdd); // Buffer pool enabled
 	bufferPool *buffer2 = new bufferPool(3, hdd);// Buffer pool disabled
 	
 	generateProgram();
@@ -77,53 +85,55 @@ int main()
 		buffer2->flush();
 
 		cout << endl << "(Q)uitter | (E)xecuter la simulation | (R)egenerer les 3 programmes" << endl << "Entrez une commande: ";
-		char option;
-		bool loop = true;
+		string option;
+		bool loop = true; 
 		// Input checking
 		while (loop) {
-			cin >> option;
-			if (isalpha(option)) {
-				switch (toupper(option)) {
-					case 'Q': return 0; // Exit program
-					case 'E': { // Continue normal execution
-						loop = false;
-						break;
-					}
-					case 'R': { // Create new values for the 3 programs
-						generateProgram();
-						cout << "Programmes regenerer." << endl << "Entrez une commande: ";
-						break;
-					}
+			getline(cin, option); 
+			char c = toupper(option[0]); // Only check the first character
+			switch (c) {
+				case 'Q': return 0; // Exit program
+				case 'E': { // Continue normal execution
+					loop = false;
+					break;
+				}
+				case 'R': { // Create new values for the 3 programs
+					generateProgram();
+					cout << "Programmes regenerer." << endl << "Entrez une commande: ";
+					break;
+				}
 					
-					default: { // Invalid character entered
-						cout << "Charactere invalide. Entrez une commande: ";
-						break;
-					}
+				default: { // Invalid character entered
+					cout << "Charactere invalide. Entrez une commande: ";
+					break;
 				}
 			}
-			else {
-				cout << "Charactere invalide. Entrez une commande: ";
-			}
-			cin.clear();
 		}
 		
 		// Input checking
-		int prgToRun;
+		string prgToRun;
 		cout << endl << "Entrez le programme a executer [1-3]: ";
 		while (true) {
-			if(cin >> prgToRun && (prgToRun <= 3 && prgToRun >= 1)) {
-				break;
+			getline(cin, prgToRun);
+			try {
+				if (stoi(prgToRun) <= 3 && stoi(prgToRun) >= 1) {
+					break;
+				}
+				else {
+					cout << "Caractere invalide. Entrez un chiffre inclus entre [1-3]: ";
+				}
+				cin.clear();
 			}
-			else {
-				cout << "Caractere invalide. Entrez un chiffre inclus dans [1-3]: ";
+			catch (...) {
+				prgToRun = "";
+				cout << "Caractere invalide. Entrez un chiffre inclus entre [1-3]: ";
 			}
-			cin.clear();
 		}
 
 		cout << endl << "Execution du programme " << prgToRun << endl;
 		cout << "---------------------------------------" << endl;
 		
-		if (prgToRun == 1) {
+		if (stoi(prgToRun) == 1) {
 			// Run with the buffer first, then without the buffer
 			hdd->resetLatency(); // Clear leftover latency for a new run
 			runProgram(programme1, *buffer1);
@@ -132,7 +142,7 @@ int main()
 			runProgram(programme1, *buffer2); 
 			timeWithoutBuffer = buffer2->executionTime();
 		}
-		else if (prgToRun == 2) {
+		else if (stoi(prgToRun) == 2) {
 			// Run with the buffer first, then without the buffer
 			hdd->resetLatency(); // Clear leftover latency for a new run
 			runProgram(programme2, *buffer1);
@@ -141,7 +151,7 @@ int main()
 			runProgram(programme2, *buffer2);
 			timeWithoutBuffer = buffer2->executionTime();
 		}
-		else if (prgToRun == 3) {
+		else if (stoi(prgToRun) == 3) {
 			// Run with the buffer first, then without the buffer
 			hdd->resetLatency(); // Clear leftover latency for a new run
 			runProgram(programme3, *buffer1);
