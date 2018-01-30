@@ -53,14 +53,14 @@ int main()
 		else { break; }
 	}
 
-	cout << "======== Heuristique " << mode << "=======" << endl;
+	cout << "======== Heuristique " << mode << " =======" << endl;
 	cout << "*** Pour changer d'heuristique, redemarrer le programme. ***" << endl;
 
 	// Construct a HDD with random data
 	hardDrive *hdd = new hardDrive();
 	// Declare the buffer pools
 	bufferPool *buffer1 = new bufferPool(mode, hdd); // Buffer pool enabled
-	bufferPool *buffer2 = new bufferPool(false, hdd);// Buffer pool disabled
+	bufferPool *buffer2 = new bufferPool(3, hdd);// Buffer pool disabled
 	
 	generateProgram();
 

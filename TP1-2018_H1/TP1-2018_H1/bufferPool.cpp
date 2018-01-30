@@ -44,6 +44,7 @@ void bufferPool::readFile(int file) {
 			nextCellToClear = leastUsed();
 			buffer->at(nextCellToClear)->address = file;
 			buffer->at(nextCellToClear)->value = data;
+			usageMatrix[file]++; // Increment the number of uses
 		}
 	}
 }
@@ -55,6 +56,7 @@ void bufferPool::writeFile(int file) {
 		if (pos != -1) { // If the file is in the buffer & dirty, write it to the disk
 			if (buffer->at(pos)->isDirty == true) { hdd->writeSector(file, buffer->at(pos)->value); }
 		}
+
 		// Otherwise do nothing, the write operation is not necessary
 		 
 	}
@@ -75,6 +77,8 @@ void bufferPool::modify(int file) {
 		if (rand() % 2 == 0) { buffer->at(pos)->value++; }
 		else { buffer->at(pos)->value--; }
 		markDirty(pos); // Mark the cell as dirty
+		
+		usageMatrix[file]++; // Increment the number of uses
 	}
 	else { hdd->writeSector(file); } // Act like a 'write' instruction if the buffer is not used
 
@@ -118,11 +122,12 @@ void bufferPool::markDirty(int cell) {
 // If there's an equality, returns the address with the least weight
 int bufferPool::leastUsed() {
 	int min, result;
-	min = 99999999999;
+	min = INT32_MAX;
 
-	for(int i = 0; i < 5; i++) {
+	for(int i = 0; i < buffer->size(); i++) {
 		if(usageMatrix[buffer->at(i)->address] < min) {
-			result = buffer->at(i)->address;
+			min = usageMatrix[buffer->at(i)->address];
+			result = i;
 		}
 	}
 	
@@ -140,12 +145,19 @@ void bufferPool::displayBufferStatus() {
 	cout << "  0      1      2      3      4" << endl;
 	cout << "#####  #####  #####  #####  #####" << endl;
 	for (int i = 0; i < 5; i++) {
+		// This if/for is built this way so that we can print NIL and prevent an out of bound error
 		if ((i < buffer->size()) && (buffer->at(i)->value != -1)) {
 			cout << "  " << buffer->at(i)->address << "    ";
 		}
 		else { cout << " NIL   ";  }
 	}
-	cout << endl << "#####  #####  #####  #####  #####";
+	cout << endl << "#####  #####  #####  #####  #####" << endl;
+	cout << "Tampons avec un dirty bit: ";
+	for (int i = 0; i < 5; i++) {
+		if((i < buffer->size()) && (buffer->at(i)->isDirty == true)) {
+			cout << i << ", ";
+		}
+	}
 	cout << endl << endl;
 }
 
