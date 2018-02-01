@@ -1,5 +1,4 @@
-// TP1-2018_H1.cpp : Defines the entry point for the console application.
-//
+// TP1-2018_H1.cpp : Main program class
 
 #include "stdafx.h"
 #include "hardDrive.h"
@@ -61,8 +60,9 @@ int main()
 		
 	}
 
-	cout << "======== Heuristique " << input << " =======" << endl;
-	cout << "*** Pour changer d'heuristique, redemarrer le programme. ***" << endl;
+	cout << endl << "======== Heuristique " << input << " =======" << endl;
+	cout << endl << "*** Pour changer d'heuristique" << endl << "  redemarrer le programme. ***" << endl;
+	cout << endl << "==============================" << endl;
 
 	// Construct a HDD with random data
 	hardDrive *hdd = new hardDrive();
@@ -77,7 +77,6 @@ int main()
 	// Main program loop
 	while (true) {
 		// Display the buffer status
-		cout << endl;
 		buffer1->displayBufferStatus();
 
 		// Reset the values contained in the buffers
