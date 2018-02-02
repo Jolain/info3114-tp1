@@ -1,6 +1,7 @@
 // TP1-2018_H1.cpp : Main program class
 
 #include "stdafx.h"
+#include <Windows.h>
 #include "hardDrive.h"
 #include "bufferPool.h"
 #include <math.h>
@@ -29,6 +30,12 @@ instruction programme3[10000];
 // Array that will hold the 4 different buffer pools required for the assignement
 int main()
 {
+	// Set the console to the correct size
+	HWND window = GetConsoleWindow();
+	RECT dimensions;
+	GetWindowRect(window, &dimensions);
+	MoveWindow(window, dimensions.left, dimensions.top, 600, 300, TRUE);
+
 	string input;
 	// Generate a random seed to get different values every time
 	srand(rand() + time(NULL));
